@@ -10,7 +10,7 @@ var Weather = React.createClass({
   getDefaultProps: function () {
     return {
       city: 'Lydney',
-      tempC: '...'
+      temp: '...'
     }
   },
 
@@ -27,10 +27,10 @@ var Weather = React.createClass({
     // api call
     this.setState({isLoading: true});
 
-    OpenWeatherMap.getTemp(city).then(function (tempC) {
+    OpenWeatherMap.getTemp(city).then(function (temp) {
       that.setState({
         city: city,
-        tempC: tempC,
+        temp: temp,
         isLoading: false
       });
     }, function (errorMessage) {
@@ -40,13 +40,13 @@ var Weather = React.createClass({
   },
 
   render: function () {
-    var {isLoading, city, tempC} = this.state;
+    var {isLoading, city, temp} = this.state;
 
     function renderMessage() {
       if (isLoading) {
         return <p>Loading weather...</p>;
-      } else if (city && tempC) {
-        return <WeatherMessage city={city} tempC={tempC} />;
+      } else if (city && temp) {
+        return <WeatherMessage city={city} temp={temp} />;
       }
     };
 
