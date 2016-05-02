@@ -2,20 +2,20 @@ var React = require('react');
 
 // var WeatherMessage = React.createClass({
 //   render: function () {
-//     var {location, temp} = this.props;
+//     var {city, temp} = this.props;
 //
 //     return (
 //       <div>
-//         <p>Weather in {location} is {temp}&deg;C</p>
+//         <p>Weather in {city} is {temp}&deg;C</p>
 //       </div>
 //     );
 //   }
 // });
 
-var WeatherMessage = ({location, temp}) => {
+var WeatherMessage = ({city, temp}) => {
   return (
     <div>
-      <p>Weather in {location} is {temp}&deg;C</p>
+      <p>Weather in {city} is {temp}&deg;C</p>
     </div>
   );
 
