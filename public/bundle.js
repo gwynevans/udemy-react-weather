@@ -25507,7 +25507,7 @@
 	      { className: 'row' },
 	      React.createElement(
 	        'div',
-	        { className: 'columns medium-6 large-4 small-centered' },
+	        { className: 'columns medium-7 large-6 small-centered' },
 	        props.children
 	      )
 	    )
@@ -25915,10 +25915,17 @@
 	      temp: undefined
 	    });
 	
-	    OpenWeatherMap.getTemp(city).then(function (temp) {
+	    OpenWeatherMap.getWeather(city).then(function (data) {
+	      var temp = data.temp;
+	      var main = data.main;
+	      var name = data.name;
+	      var country = data.country;
+	
 	      that.setState({
-	        city: city,
+	        name: name,
 	        temp: temp,
+	        country: country,
+	        main: main,
 	        isLoading: false
 	      });
 	    }, function (e) {
@@ -25932,7 +25939,9 @@
 	  render: function render() {
 	    var _state = this.state;
 	    var isLoading = _state.isLoading;
-	    var city = _state.city;
+	    var country = _state.country;
+	    var main = _state.main;
+	    var name = _state.name;
 	    var temp = _state.temp;
 	    var errorMessage = _state.errorMessage;
 	
@@ -25944,8 +25953,8 @@
 	          { className: 'text-center' },
 	          'Fetching weather...'
 	        );
-	      } else if (city && temp) {
-	        return React.createElement(WeatherMessage, { city: city, temp: temp });
+	      } else if (name && temp) {
+	        return React.createElement(WeatherMessage, { country: country, main: main, name: name, temp: temp });
 	      }
 	    };
 	
@@ -26095,7 +26104,9 @@
 	var React = __webpack_require__(/*! react */ 8);
 	
 	var WeatherMessage = function WeatherMessage(_ref) {
-	  var city = _ref.city;
+	  var country = _ref.country;
+	  var main = _ref.main;
+	  var name = _ref.name;
 	  var temp = _ref.temp;
 	
 	  return React.createElement(
@@ -26104,9 +26115,13 @@
 	    React.createElement(
 	      "h4",
 	      { className: "text-center" },
-	      "Temp in ",
-	      city,
-	      " is ",
+	      "Current weather in ",
+	      name,
+	      " (",
+	      country,
+	      ") is ",
+	      main,
+	      " & ",
 	      temp,
 	      "°C"
 	    )
@@ -26129,7 +26144,7 @@
 	var OPEN_WEATHER_MAP_URL = 'http://api.openweathermap.org/data/2.5/weather?units=metric&appid=ad404140255c903493233987e6f15075';
 	
 	module.exports = {
-	  getTemp: function getTemp(location) {
+	  getWeather: function getWeather(location) {
 	    var encodedLocation = encodeURIComponent(location);
 	    var requestUrl = OPEN_WEATHER_MAP_URL + '&q=' + encodedLocation;
 	
@@ -26137,8 +26152,13 @@
 	      if (res.data.cod && res.data.message) {
 	        throw new Error(res.data.message);
 	      } else {
-	        return res.data.main.temp;
-	      }
+	        return {
+	          temp: res.data.main.temp,
+	          name: res.data.name,
+	          country: res.data.sys.country,
+	          main: res.data.weather[0].main
+	        };
+	      };
 	    }, function (res) {
 	      throw new Error(res.data.message);
 	    });
