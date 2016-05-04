@@ -7,7 +7,7 @@ var About = (props) => {
   return (
     <div>
       <h1 className="text-center">About</h1>
-      <p>An example Weather app from the "The Complete React Web App Developer Course" Udemy course by Andrew Mead.</p>
+      <p>An example Weather app from "The Complete React Web App Developer Course" Udemy course by Andrew Mead.</p>
       <p>Some relevant links:</p>
       <ul>
         <li><a href='https://facebook.github.io/react/'>React</a> (JavaScript UI library) -

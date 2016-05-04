@@ -1,4 +1,3 @@
-# udemy-react-weather
-Udemy/React_Web_App_Developer/ReactWeather
+An example Weather app from [The Complete React Web App Developer Course](https://www.udemy.com/the-complete-react-web-app-developer-course/) at Udemy.
 
-https://www.udemy.com/the-complete-react-web-app-developer-course/
+See the [About](https://guarded-springs-70870.herokuapp.com/#/about) page for more links.

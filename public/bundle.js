@@ -25639,7 +25639,7 @@
 	        React.createElement(
 	            'p',
 	            null,
-	            'An example Weather app from the "The Complete React Web App Developer Course" Udemy course by Andrew Mead.'
+	            'An example Weather app from "The Complete React Web App Developer Course" Udemy course by Andrew Mead.'
 	        ),
 	        React.createElement(
 	            'p',
