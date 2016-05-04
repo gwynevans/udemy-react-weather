@@ -25505,7 +25505,7 @@
 	      { className: 'row' },
 	      React.createElement(
 	        'div',
-	        { className: 'columns medium-6 large-4 small-centered' },
+	        { className: 'columns medium-8 large-6 small-centered' },
 	        props.children
 	      )
 	    )
@@ -25551,7 +25551,7 @@
 	          React.createElement(
 	            'li',
 	            { className: 'menu-text' },
-	            'React Weather App'
+	            'React Weather'
 	          ),
 	          React.createElement(
 	            'li',
@@ -25621,23 +25621,149 @@
 	
 	var React = __webpack_require__(/*! react */ 8);
 	
+	var _require = __webpack_require__(/*! react-router */ 166);
+	
+	var a = _require.a;
+	
 	// Stateless component and arrow function
 	
 	var About = function About(props) {
-	  return React.createElement(
-	    'div',
-	    null,
-	    React.createElement(
-	      'h3',
-	      null,
-	      'About'
-	    ),
-	    React.createElement(
-	      'p',
-	      null,
-	      'Welcome to the About page'
-	    )
-	  );
+	    return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	            'h1',
+	            { className: 'text-center' },
+	            'About'
+	        ),
+	        React.createElement(
+	            'p',
+	            null,
+	            'An example Weather app from the "The Complete React Web App Developer Course" Udemy course by Andrew Mead.'
+	        ),
+	        React.createElement(
+	            'p',
+	            null,
+	            'Some relevant links:'
+	        ),
+	        React.createElement(
+	            'ul',
+	            null,
+	            React.createElement(
+	                'li',
+	                null,
+	                React.createElement(
+	                    'a',
+	                    { href: 'https://facebook.github.io/react/' },
+	                    'React'
+	                ),
+	                ' (JavaScript UI library) -',
+	                React.createElement(
+	                    'a',
+	                    { href: 'https://facebook.github.io/react/docs/getting-started.html' },
+	                    'Docs'
+	                ),
+	                ' & ',
+	                React.createElement(
+	                    'a',
+	                    { href: 'https://facebook.github.io/react/docs/component-api.html' },
+	                    'Component API'
+	                )
+	            ),
+	            React.createElement(
+	                'li',
+	                null,
+	                React.createElement(
+	                    'a',
+	                    { href: 'https://github.com/reactjs/react-router' },
+	                    'React Router'
+	                ),
+	                ' (routing library for React) -',
+	                React.createElement(
+	                    'a',
+	                    { href: 'https://github.com/reactjs/react-router/blob/master/docs' },
+	                    ' Docs'
+	                ),
+	                ' &',
+	                React.createElement(
+	                    'a',
+	                    { href: 'https://github.com/reactjs/react-router/blob/master/docs/API.md' },
+	                    ' API'
+	                )
+	            ),
+	            React.createElement(
+	                'li',
+	                null,
+	                React.createElement(
+	                    'a',
+	                    { href: 'http://foundation.zurb.com/sites.html' },
+	                    'Foundation for Sites 6'
+	                ),
+	                ' (front-end framework) -',
+	                React.createElement(
+	                    'a',
+	                    { href: 'http://foundation.zurb.com/sites/docs/' },
+	                    'Docs'
+	                ),
+	                ' &',
+	                React.createElement(
+	                    'a',
+	                    { href: 'http://foundation.zurb.com/sites/docs/kitchen-sink.html' },
+	                    ' Kitchen Sink'
+	                )
+	            ),
+	            React.createElement(
+	                'li',
+	                null,
+	                React.createElement(
+	                    'a',
+	                    { href: 'http://openweathermap.org/' },
+	                    'OpenWeatherMap'
+	                ),
+	                ' (date source) -',
+	                React.createElement(
+	                    'a',
+	                    { href: 'http://openweathermap.org/api' },
+	                    ' API docs'
+	                ),
+	                ' &',
+	                React.createElement(
+	                    'a',
+	                    { href: 'http://openweathermap.org/current#one' },
+	                    ' Current weather data API'
+	                )
+	            ),
+	            React.createElement(
+	                'li',
+	                null,
+	                React.createElement(
+	                    'a',
+	                    { href: 'https://github.com/gwynevans/udemy-react-weather' },
+	                    'Source'
+	                ),
+	                ' on GitHub'
+	            ),
+	            React.createElement(
+	                'li',
+	                null,
+	                'Heroku ',
+	                React.createElement(
+	                    'a',
+	                    { href: 'https://dashboard-preview.heroku.com/apps' },
+	                    'Dashboard'
+	                )
+	            ),
+	            React.createElement(
+	                'li',
+	                null,
+	                React.createElement(
+	                    'a',
+	                    { href: 'https://www.udemy.com/the-complete-react-web-app-developer-course/learn/v4/overview' },
+	                    'Udemy "Complete React..." course'
+	                )
+	            )
+	        )
+	    );
 	};
 	
 	module.exports = About;
@@ -25822,7 +25948,7 @@
 	          React.createElement('input', { type: 'text', ref: 'city', placeholder: 'Enter city' }),
 	          React.createElement(
 	            'button',
-	            null,
+	            { className: 'small hollow button' },
 	            'Get Weather'
 	          )
 	        )
@@ -25844,18 +25970,6 @@
 	
 	var React = __webpack_require__(/*! react */ 8);
 	
-	// var WeatherMessage = React.createClass({
-	//   render: function () {
-	//     var {city, temp} = this.props;
-	//
-	//     return (
-	//       <div>
-	//         <p>Weather in {city} is {temp}&deg;C</p>
-	//       </div>
-	//     );
-	//   }
-	// });
-	
 	var WeatherMessage = function WeatherMessage(_ref) {
 	  var city = _ref.city;
 	  var temp = _ref.temp;
@@ -25866,7 +25980,7 @@
 	    React.createElement(
 	      'p',
 	      null,
-	      'Weather in ',
+	      'Temp in ',
 	      city,
 	      ' is ',
 	      temp,
