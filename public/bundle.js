@@ -25632,7 +25632,7 @@
 	        'div',
 	        null,
 	        React.createElement(
-	            'h1',
+	            'h2',
 	            { className: 'text-center' },
 	            'About'
 	        ),
@@ -25789,7 +25789,7 @@
 	    'div',
 	    null,
 	    React.createElement(
-	      'h1',
+	      'h2',
 	      { className: 'text-center' },
 	      'Examples'
 	    ),
@@ -25884,9 +25884,9 @@
 	    function renderMessage() {
 	      if (isLoading) {
 	        return React.createElement(
-	          'p',
-	          null,
-	          'Loading weather...'
+	          'h3',
+	          { 'class-name': 'text-center' },
+	          'Fetching weather...'
 	        );
 	      } else if (city && temp) {
 	        return React.createElement(WeatherMessage, { city: city, temp: temp });
@@ -25897,9 +25897,9 @@
 	      'div',
 	      null,
 	      React.createElement(
-	        'h3',
-	        null,
-	        'Weather Component'
+	        'h2',
+	        { 'class-name': 'text-center' },
+	        'Get Weather'
 	      ),
 	      React.createElement(WeatherForm, { onChange: this.handleChange }),
 	      renderMessage()
@@ -25948,7 +25948,7 @@
 	          React.createElement('input', { type: 'text', ref: 'city', placeholder: 'Enter city' }),
 	          React.createElement(
 	            'button',
-	            { className: 'small hollow button' },
+	            { className: 'expanded hollow button' },
 	            'Get Weather'
 	          )
 	        )
@@ -25966,7 +25966,7 @@
   \*******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var React = __webpack_require__(/*! react */ 8);
 	
@@ -25975,16 +25975,16 @@
 	  var temp = _ref.temp;
 	
 	  return React.createElement(
-	    'div',
+	    "div",
 	    null,
 	    React.createElement(
-	      'p',
-	      null,
-	      'Temp in ',
+	      "h4",
+	      { "class-name": "text-center" },
+	      "Temp in ",
 	      city,
-	      ' is ',
+	      " is ",
 	      temp,
-	      '°C'
+	      "°C"
 	    )
 	  );
 	};
