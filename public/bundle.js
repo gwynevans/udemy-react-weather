@@ -25538,7 +25538,14 @@
 	
 	  onSearch: function onSearch(e) {
 	    e.preventDefault();
-	    alert('Not yet implemented!');
+	
+	    var city = this.refs.search.value;
+	    var encodedCity = encodeURIComponent(city);
+	
+	    if (city.length > 0) {
+	      this.refs.search.value = '';
+	      window.location.hash = '#/?city=' + encodedCity;
+	    }
 	  },
 	  render: function render() {
 	    return React.createElement(
@@ -25596,7 +25603,7 @@
 	            React.createElement(
 	              'li',
 	              null,
-	              React.createElement('input', { type: 'search', placeholder: 'Search weather by city' })
+	              React.createElement('input', { type: 'search', ref: 'search', placeholder: 'Search weather by city' })
 	            ),
 	            React.createElement(
 	              'li',
@@ -25798,7 +25805,7 @@
 	    React.createElement(
 	      'p',
 	      null,
-	      'Here are a few example locations to try out:'
+	      'Here are a few example cities to try out:'
 	    ),
 	    React.createElement(
 	      'ol',
@@ -25808,7 +25815,7 @@
 	        null,
 	        React.createElement(
 	          Link,
-	          { to: '/?location=Lydney' },
+	          { to: '/?city=Lydney' },
 	          'Lydney'
 	        )
 	      ),
@@ -25817,8 +25824,35 @@
 	        null,
 	        React.createElement(
 	          Link,
-	          { to: '/?location=Gloucester' },
+	          { to: '/?city=Gloucester' },
 	          'Gloucester'
+	        )
+	      ),
+	      React.createElement(
+	        'li',
+	        null,
+	        React.createElement(
+	          Link,
+	          { to: '/?city=Annapolis' },
+	          'Annapolis'
+	        )
+	      ),
+	      React.createElement(
+	        'li',
+	        null,
+	        React.createElement(
+	          Link,
+	          { to: '/?city=Birmingham' },
+	          'Birmingham, Alabama'
+	        )
+	      ),
+	      React.createElement(
+	        'li',
+	        null,
+	        React.createElement(
+	          Link,
+	          { to: '/?city=Birmingham,UK' },
+	          'Birmingham, UK'
 	        )
 	      )
 	    )
@@ -25846,11 +25880,22 @@
 	var Weather = React.createClass({
 	  displayName: 'Weather',
 	
+	  componentDidMount: function componentDidMount() {
+	    var city = this.props.location.query.city;
 	
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      city: 'Lydney'
-	    };
+	    if (city && city.length > 0) {
+	      this.handleSearch(city);
+	      window.location.hash = '#/';
+	    }
+	  },
+	
+	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+	    var city = newProps.location.query.city;
+	
+	    if (city && city.length > 0) {
+	      this.handleSearch(city);
+	      window.location.hash = '#/';
+	    }
 	  },
 	
 	  getInitialState: function getInitialState() {
@@ -25860,12 +25905,14 @@
 	    };
 	  },
 	
-	  handleChange: function handleChange(city) {
+	  handleSearch: function handleSearch(city) {
 	    var that = this;
 	
 	    this.setState({
 	      isLoading: true,
-	      errorMessage: undefined
+	      errorMessage: undefined,
+	      city: undefined,
+	      temp: undefined
 	    });
 	
 	    OpenWeatherMap.getTemp(city).then(function (temp) {
@@ -25916,7 +25963,7 @@
 	        { className: 'text-center page-title' },
 	        'Get Weather'
 	      ),
-	      React.createElement(WeatherForm, { onChange: this.handleChange }),
+	      React.createElement(WeatherForm, { onChange: this.handleSearch }),
 	      renderMessage(),
 	      renderError()
 	    );
