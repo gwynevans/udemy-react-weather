@@ -135,7 +135,7 @@
 	__webpack_require__(/*! style!css!foundation-sites/dist/foundation.min.css */ 250);
 	$(document).foundation();
 	
-	__webpack_require__(/*! style!css!applicationStyles */ 254);
+	__webpack_require__(/*! style!css!sass!applicationStyles */ 254);
 	
 	ReactDOM.render(React.createElement(
 	  Router,
@@ -27690,15 +27690,15 @@
 
 /***/ },
 /* 254 */
-/*!************************************************************!*\
-  !*** ./~/style-loader!./~/css-loader!./app/styles/app.css ***!
-  \************************************************************/
+/*!*****************************************************************************!*\
+  !*** ./~/style-loader!./~/css-loader!./~/sass-loader!./app/styles/app.scss ***!
+  \*****************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./app.css */ 255);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./app.scss */ 255);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 253)(content, {});
@@ -27707,8 +27707,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./app.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./app.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./app.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./app.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -27719,9 +27719,9 @@
 
 /***/ },
 /* 255 */
-/*!*******************************************!*\
-  !*** ./~/css-loader!./app/styles/app.css ***!
-  \*******************************************/
+/*!************************************************************!*\
+  !*** ./~/css-loader!./~/sass-loader!./app/styles/app.scss ***!
+  \************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 252)();
@@ -27729,7 +27729,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".page-title {\n  margin-top: 2.5rem;\n  margin-bottom: 2.5rem;\n}\n\ninput[type=search] {\n  box-shadow: none;\n}\n", ""]);
+	exports.push([module.id, ".page-title {\n  color: #555;\n  margin-top: 2.5rem;\n  margin-bottom: 2.5rem; }\n\ninput[type=search] {\n  box-shadow: none; }\n", ""]);
 	
 	// exports
 
