@@ -25863,9 +25863,7 @@
 	
 	    this.setState({
 	      isLoading: true,
-	      errorMessage: undefined,
-	      city: undefined,
-	      temp: undefined
+	      errorMessage: undefined
 	    });
 	
 	    OpenWeatherMap.getTemp(city).then(function (temp) {
@@ -25939,24 +25937,36 @@
 	var ErrorModal = React.createClass({
 	  displayName: 'ErrorModal',
 	
-	
+	  propTypes: {
+	    title: React.PropTypes.string,
+	    msg: React.PropTypes.string.isRequired
+	  },
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      title: 'Error'
+	    };
+	  },
 	  componentDidMount: function componentDidMount() {
 	    var modal = new Foundation.Reveal($('#error-modal'));
 	    modal.open();
 	  },
 	  render: function render() {
+	    var _props = this.props;
+	    var title = _props.title;
+	    var msg = _props.msg;
+	
 	    return React.createElement(
 	      'div',
 	      { id: 'error-modal', className: 'reveal tiny text-center', 'data-reveal': '' },
 	      React.createElement(
 	        'h4',
 	        null,
-	        'Some Title'
+	        title
 	      ),
 	      React.createElement(
 	        'p',
 	        null,
-	        'Error message'
+	        msg
 	      ),
 	      React.createElement(
 	        'p',
