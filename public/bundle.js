@@ -132,7 +132,7 @@
 	var Weather = __webpack_require__(/*! Weather */ 227);
 	
 	// Load foundation
-	__webpack_require__(/*! style!css!foundation-sites/dist/foundation.min.css */ 249);
+	__webpack_require__(/*! style!css!foundation-sites/dist/foundation.min.css */ 250);
 	$(document).foundation();
 	
 	ReactDOM.render(React.createElement(
@@ -25836,9 +25836,10 @@
 	
 	var React = __webpack_require__(/*! react */ 8);
 	
-	var WeatherForm = __webpack_require__(/*! WeatherForm */ 228);
-	var WeatherMessage = __webpack_require__(/*! WeatherMessage */ 229);
-	var OpenWeatherMap = __webpack_require__(/*! OpenWeatherMap */ 230);
+	var ErrorModal = __webpack_require__(/*! ErrorModal */ 228);
+	var WeatherForm = __webpack_require__(/*! WeatherForm */ 229);
+	var WeatherMessage = __webpack_require__(/*! WeatherMessage */ 230);
+	var OpenWeatherMap = __webpack_require__(/*! OpenWeatherMap */ 231);
 	
 	var Weather = React.createClass({
 	  displayName: 'Weather',
@@ -25851,16 +25852,21 @@
 	  },
 	
 	  getInitialState: function getInitialState() {
-	    //this.handleChange(this.props.city);
 	    return {
-	      isLoading: false
+	      isLoading: false,
+	      errorMessage: undefined
 	    };
 	  },
 	
 	  handleChange: function handleChange(city) {
 	    var that = this;
 	
-	    this.setState({ isLoading: true });
+	    this.setState({
+	      isLoading: true,
+	      errorMessage: undefined,
+	      city: undefined,
+	      temp: undefined
+	    });
 	
 	    OpenWeatherMap.getTemp(city).then(function (temp) {
 	      that.setState({
@@ -25868,9 +25874,11 @@
 	        temp: temp,
 	        isLoading: false
 	      });
-	    }, function (errorMessage) {
-	      alert(errorMessage);
-	      that.setState({ isLoading: false });
+	    }, function (e) {
+	      that.setState({
+	        isLoading: false,
+	        errorMessage: e.message
+	      });
 	    });
 	  },
 	
@@ -25879,6 +25887,7 @@
 	    var isLoading = _state.isLoading;
 	    var city = _state.city;
 	    var temp = _state.temp;
+	    var errorMessage = _state.errorMessage;
 	
 	
 	    function renderMessage() {
@@ -25893,6 +25902,12 @@
 	      }
 	    };
 	
+	    function renderError() {
+	      if (typeof errorMessage === 'string') {
+	        return React.createElement(ErrorModal, { msg: errorMessage });
+	      }
+	    };
+	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -25902,7 +25917,8 @@
 	        'Get Weather'
 	      ),
 	      React.createElement(WeatherForm, { onChange: this.handleChange }),
-	      renderMessage()
+	      renderMessage(),
+	      renderError()
 	    );
 	  }
 	});
@@ -25911,6 +25927,55 @@
 
 /***/ },
 /* 228 */
+/*!***************************************!*\
+  !*** ./app/components/ErrorModal.jsx ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	
+	var React = __webpack_require__(/*! react */ 8);
+	
+	var ErrorModal = React.createClass({
+	  displayName: 'ErrorModal',
+	
+	
+	  componentDidMount: function componentDidMount() {
+	    var modal = new Foundation.Reveal($('#error-modal'));
+	    modal.open();
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { id: 'error-modal', className: 'reveal tiny text-center', 'data-reveal': '' },
+	      React.createElement(
+	        'h4',
+	        null,
+	        'Some Title'
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        'Error message'
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        React.createElement(
+	          'button',
+	          { className: 'button hollow small', 'data-close': '' },
+	          'Okay'
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ErrorModal;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! jquery */ 7)))
+
+/***/ },
+/* 229 */
 /*!****************************************!*\
   !*** ./app/components/WeatherForm.jsx ***!
   \****************************************/
@@ -25960,7 +26025,7 @@
 	module.exports = WeatherForm;
 
 /***/ },
-/* 229 */
+/* 230 */
 /*!*******************************************!*\
   !*** ./app/components/WeatherMessage.jsx ***!
   \*******************************************/
@@ -25992,7 +26057,7 @@
 	module.exports = WeatherMessage;
 
 /***/ },
-/* 230 */
+/* 231 */
 /*!************************************!*\
   !*** ./app/api/openWeatherMap.jsx ***!
   \************************************/
@@ -26000,7 +26065,7 @@
 
 	'use strict';
 	
-	var axios = __webpack_require__(/*! axios */ 231);
+	var axios = __webpack_require__(/*! axios */ 232);
 	
 	var OPEN_WEATHER_MAP_URL = 'http://api.openweathermap.org/data/2.5/weather?units=metric&appid=ad404140255c903493233987e6f15075';
 	
@@ -26011,7 +26076,7 @@
 	
 	    return axios.get(requestUrl).then(function (res) {
 	      if (res.data.cod && res.data.message) {
-	        throw new Error(res.data.error);
+	        throw new Error(res.data.message);
 	      } else {
 	        return res.data.main.temp;
 	      }
@@ -26022,16 +26087,16 @@
 	};
 
 /***/ },
-/* 231 */
+/* 232 */
 /*!**************************!*\
   !*** ./~/axios/index.js ***!
   \**************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(/*! ./lib/axios */ 232);
+	module.exports = __webpack_require__(/*! ./lib/axios */ 233);
 
 /***/ },
-/* 232 */
+/* 233 */
 /*!******************************!*\
   !*** ./~/axios/lib/axios.js ***!
   \******************************/
@@ -26039,14 +26104,14 @@
 
 	'use strict';
 	
-	var defaults = __webpack_require__(/*! ./defaults */ 233);
-	var utils = __webpack_require__(/*! ./utils */ 234);
-	var dispatchRequest = __webpack_require__(/*! ./core/dispatchRequest */ 235);
-	var InterceptorManager = __webpack_require__(/*! ./core/InterceptorManager */ 244);
-	var isAbsoluteURL = __webpack_require__(/*! ./helpers/isAbsoluteURL */ 245);
-	var combineURLs = __webpack_require__(/*! ./helpers/combineURLs */ 246);
-	var bind = __webpack_require__(/*! ./helpers/bind */ 247);
-	var transformData = __webpack_require__(/*! ./helpers/transformData */ 239);
+	var defaults = __webpack_require__(/*! ./defaults */ 234);
+	var utils = __webpack_require__(/*! ./utils */ 235);
+	var dispatchRequest = __webpack_require__(/*! ./core/dispatchRequest */ 236);
+	var InterceptorManager = __webpack_require__(/*! ./core/InterceptorManager */ 245);
+	var isAbsoluteURL = __webpack_require__(/*! ./helpers/isAbsoluteURL */ 246);
+	var combineURLs = __webpack_require__(/*! ./helpers/combineURLs */ 247);
+	var bind = __webpack_require__(/*! ./helpers/bind */ 248);
+	var transformData = __webpack_require__(/*! ./helpers/transformData */ 240);
 	
 	function Axios(defaultConfig) {
 	  this.defaults = utils.merge({}, defaultConfig);
@@ -26131,7 +26196,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(/*! ./helpers/spread */ 248);
+	axios.spread = __webpack_require__(/*! ./helpers/spread */ 249);
 	
 	// Provide aliases for supported request methods
 	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
@@ -26159,7 +26224,7 @@
 
 
 /***/ },
-/* 233 */
+/* 234 */
 /*!*********************************!*\
   !*** ./~/axios/lib/defaults.js ***!
   \*********************************/
@@ -26167,7 +26232,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./utils */ 234);
+	var utils = __webpack_require__(/*! ./utils */ 235);
 	
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -26234,7 +26299,7 @@
 
 
 /***/ },
-/* 234 */
+/* 235 */
 /*!******************************!*\
   !*** ./~/axios/lib/utils.js ***!
   \******************************/
@@ -26509,7 +26574,7 @@
 
 
 /***/ },
-/* 235 */
+/* 236 */
 /*!*********************************************!*\
   !*** ./~/axios/lib/core/dispatchRequest.js ***!
   \*********************************************/
@@ -26534,10 +26599,10 @@
 	        adapter = config.adapter;
 	      } else if (typeof XMLHttpRequest !== 'undefined') {
 	        // For browsers use XHR adapter
-	        adapter = __webpack_require__(/*! ../adapters/xhr */ 236);
+	        adapter = __webpack_require__(/*! ../adapters/xhr */ 237);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        adapter = __webpack_require__(/*! ../adapters/http */ 236);
+	        adapter = __webpack_require__(/*! ../adapters/http */ 237);
 	      }
 	
 	      if (typeof adapter === 'function') {
@@ -26553,7 +26618,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 11)))
 
 /***/ },
-/* 236 */
+/* 237 */
 /*!*************************************!*\
   !*** ./~/axios/lib/adapters/xhr.js ***!
   \*************************************/
@@ -26561,13 +26626,13 @@
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 234);
-	var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 237);
-	var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 238);
-	var transformData = __webpack_require__(/*! ./../helpers/transformData */ 239);
-	var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 240);
-	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(/*! ./../helpers/btoa */ 241);
-	var settle = __webpack_require__(/*! ../helpers/settle */ 242);
+	var utils = __webpack_require__(/*! ./../utils */ 235);
+	var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 238);
+	var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 239);
+	var transformData = __webpack_require__(/*! ./../helpers/transformData */ 240);
+	var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 241);
+	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(/*! ./../helpers/btoa */ 242);
+	var settle = __webpack_require__(/*! ../helpers/settle */ 243);
 	
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  var requestData = config.data;
@@ -26666,7 +26731,7 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(/*! ./../helpers/cookies */ 243);
+	    var cookies = __webpack_require__(/*! ./../helpers/cookies */ 244);
 	
 	    // Add xsrf header
 	    var xsrfValue = config.withCredentials || isURLSameOrigin(config.url) ?
@@ -26727,7 +26792,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 11)))
 
 /***/ },
-/* 237 */
+/* 238 */
 /*!*****************************************!*\
   !*** ./~/axios/lib/helpers/buildURL.js ***!
   \*****************************************/
@@ -26735,7 +26800,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 234);
+	var utils = __webpack_require__(/*! ./../utils */ 235);
 	
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -26803,7 +26868,7 @@
 
 
 /***/ },
-/* 238 */
+/* 239 */
 /*!*********************************************!*\
   !*** ./~/axios/lib/helpers/parseHeaders.js ***!
   \*********************************************/
@@ -26811,7 +26876,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 234);
+	var utils = __webpack_require__(/*! ./../utils */ 235);
 	
 	/**
 	 * Parse headers into an object
@@ -26849,7 +26914,7 @@
 
 
 /***/ },
-/* 239 */
+/* 240 */
 /*!**********************************************!*\
   !*** ./~/axios/lib/helpers/transformData.js ***!
   \**********************************************/
@@ -26857,7 +26922,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 234);
+	var utils = __webpack_require__(/*! ./../utils */ 235);
 	
 	/**
 	 * Transform the data for a request or a response
@@ -26878,7 +26943,7 @@
 
 
 /***/ },
-/* 240 */
+/* 241 */
 /*!************************************************!*\
   !*** ./~/axios/lib/helpers/isURLSameOrigin.js ***!
   \************************************************/
@@ -26886,7 +26951,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 234);
+	var utils = __webpack_require__(/*! ./../utils */ 235);
 	
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -26955,7 +27020,7 @@
 
 
 /***/ },
-/* 241 */
+/* 242 */
 /*!*************************************!*\
   !*** ./~/axios/lib/helpers/btoa.js ***!
   \*************************************/
@@ -27000,7 +27065,7 @@
 
 
 /***/ },
-/* 242 */
+/* 243 */
 /*!***************************************!*\
   !*** ./~/axios/lib/helpers/settle.js ***!
   \***************************************/
@@ -27027,7 +27092,7 @@
 
 
 /***/ },
-/* 243 */
+/* 244 */
 /*!****************************************!*\
   !*** ./~/axios/lib/helpers/cookies.js ***!
   \****************************************/
@@ -27035,7 +27100,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 234);
+	var utils = __webpack_require__(/*! ./../utils */ 235);
 	
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -27089,7 +27154,7 @@
 
 
 /***/ },
-/* 244 */
+/* 245 */
 /*!************************************************!*\
   !*** ./~/axios/lib/core/InterceptorManager.js ***!
   \************************************************/
@@ -27097,7 +27162,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 234);
+	var utils = __webpack_require__(/*! ./../utils */ 235);
 	
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -27150,7 +27215,7 @@
 
 
 /***/ },
-/* 245 */
+/* 246 */
 /*!**********************************************!*\
   !*** ./~/axios/lib/helpers/isAbsoluteURL.js ***!
   \**********************************************/
@@ -27173,7 +27238,7 @@
 
 
 /***/ },
-/* 246 */
+/* 247 */
 /*!********************************************!*\
   !*** ./~/axios/lib/helpers/combineURLs.js ***!
   \********************************************/
@@ -27194,7 +27259,7 @@
 
 
 /***/ },
-/* 247 */
+/* 248 */
 /*!*************************************!*\
   !*** ./~/axios/lib/helpers/bind.js ***!
   \*************************************/
@@ -27214,7 +27279,7 @@
 
 
 /***/ },
-/* 248 */
+/* 249 */
 /*!***************************************!*\
   !*** ./~/axios/lib/helpers/spread.js ***!
   \***************************************/
@@ -27250,7 +27315,7 @@
 
 
 /***/ },
-/* 249 */
+/* 250 */
 /*!************************************************************************************!*\
   !*** ./~/style-loader!./~/css-loader!./~/foundation-sites/dist/foundation.min.css ***!
   \************************************************************************************/
@@ -27259,10 +27324,10 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../css-loader!./foundation.min.css */ 250);
+	var content = __webpack_require__(/*! !./../../css-loader!./foundation.min.css */ 251);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../style-loader/addStyles.js */ 252)(content, {});
+	var update = __webpack_require__(/*! ./../../style-loader/addStyles.js */ 253)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -27279,13 +27344,13 @@
 	}
 
 /***/ },
-/* 250 */
+/* 251 */
 /*!*******************************************************************!*\
   !*** ./~/css-loader!./~/foundation-sites/dist/foundation.min.css ***!
   \*******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(/*! ./../../css-loader/lib/css-base.js */ 251)();
+	exports = module.exports = __webpack_require__(/*! ./../../css-loader/lib/css-base.js */ 252)();
 	// imports
 	
 	
@@ -27296,7 +27361,7 @@
 
 
 /***/ },
-/* 251 */
+/* 252 */
 /*!**************************************!*\
   !*** ./~/css-loader/lib/css-base.js ***!
   \**************************************/
@@ -27355,7 +27420,7 @@
 
 
 /***/ },
-/* 252 */
+/* 253 */
 /*!*************************************!*\
   !*** ./~/style-loader/addStyles.js ***!
   \*************************************/
