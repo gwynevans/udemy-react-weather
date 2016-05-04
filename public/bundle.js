@@ -25505,7 +25505,7 @@
 	      { className: 'row' },
 	      React.createElement(
 	        'div',
-	        { className: 'columns medium-8 large-6 small-centered' },
+	        { className: 'columns medium-6 large-4 small-centered' },
 	        props.children
 	      )
 	    )
@@ -25885,7 +25885,7 @@
 	      if (isLoading) {
 	        return React.createElement(
 	          'h3',
-	          { 'class-name': 'text-center' },
+	          { className: 'text-center' },
 	          'Fetching weather...'
 	        );
 	      } else if (city && temp) {
@@ -25898,7 +25898,7 @@
 	      null,
 	      React.createElement(
 	        'h2',
-	        { 'class-name': 'text-center' },
+	        { className: 'text-center' },
 	        'Get Weather'
 	      ),
 	      React.createElement(WeatherForm, { onChange: this.handleChange }),
@@ -25979,7 +25979,7 @@
 	    null,
 	    React.createElement(
 	      "h4",
-	      { "class-name": "text-center" },
+	      { className: "text-center" },
 	      "Temp in ",
 	      city,
 	      " is ",
